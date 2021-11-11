@@ -1,0 +1,66 @@
+QUESTION:
+The Nautilus application development team has shared that they are planning to deploy one newly developed application on Nautilus infra in Stratos DC. The application uses PostgreSQL database, so as a pre-requisite we need to set up PostgreSQL database server as per requirements shared below:
+
+a. Install and configure PostgreSQL database on Nautilus database server.
+
+b. Create a database user kodekloud_aim and set its password to BruCStnMT5.
+
+c. Create a database kodekloud_db3 and grant full permissions to user kodekloud_aim on this database.
+
+d. Make appropriate settings to allow all local clients (local socket connections) to connect to the kodekloud_db3 database through kodekloud_aim user using md5 method (Please do not try to encrypt password with md5sum).
+
+e. At the end its good to test the db connection using these new credentials from root user or server's sudo user.
+
+
+
+SOLUTION:
+To start this task, you need to SSH into the database server and switch to root user using sudo su
+a. install and configure PostgreSQL DB
+yum install https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-x86_64/pgdg-redhat10-10-1.noarch.rpm or yum -y install postgresql-server postgresql-contrib OR
+yum list postgrel*
+yum install postgresql-server
+
+Initiate a DB
+postgresql-setup initdb
+You need to enable start and check the status of the service
+systemctl enable postgresql
+systemctl start postgresql
+systemctl status postgresql
+
+b. Create user, DB and grant permissions after login into the Postgresql
+To login to DB:
+sudo +u - postgres psql
+Type "help" if you need help
+
+CREATE USER kodekloud_aim   -  To create user with password CREATE USER kodekloud_aim WITH PASSWORD 'BruCStnMT5';
+c. 
+postgres=# CREATE DATABASE kodekloud_db3
+GRANT ALL PRIVILEGES ON DATABASE "kodekloud_db3" to kodekloud_aim;   To grant permission of "kodekloud_db3" to kodekloud_aim
+
+d.
+Edit postgresql.conf  &  do the below configuration changes uncomment 
+vi /var/lib/pgsql/data/postgresql.conf
+cat /var/lib/pgsql/data/postgresql.conf |grep localhost
+listen_addresses = 'localhost'          # what IP address(es) to listen on;
+
+                                        # defaults to 'localhost'; use '*' for all
+
+Edit another config file pg_hba.conf  &  configure the md5 at bottom of the config 
+[root@stdb01 ~]# vi /var/lib/pgsql/data/pg_hba.conf
+
+[root@stdb01 ~]# cat /var/lib/pgsql/data/pg_hba.conf |grep md5
+
+# METHOD can be "trust", "reject", "md5", "password", "gss", "sspi",
+
+# "password" sends passwords in clear text; "md5" is preferred since
+[root@stdb01 ~]# systemctl restart postgresql
+
+[root@stdb01 ~]# systemctl status postgresql
+
+e. To validate the task
+
+root@stdb01 ~]# psql -U kodekloud_top -d kodekloud_db7 -h 127.0.0.1 -W
+
+[root@stdb01 ~]# psql -U kodekloud_top -d kodekloud_db7 -h localhost -W
+
+
