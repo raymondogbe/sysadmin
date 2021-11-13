@@ -1,0 +1,27 @@
+QUESTION:
+There is a critical issue going on with the Nautilus application in Stratos DC. 
+The production support team identified that the application is unable to connect to the database. 
+After digging into the issue, the team found that mariadb service is down on the database server.
+Look into the issue and fix the same.
+
+
+
+SOLUTION:
+Having checked using the neccessary command, I realized that MariaDB was not active, hence, the reason why the application was not able to connect to the DB.
+Check the status of Mariadb
+systemctl status mariadb   
+systemctl status mariadb.service
+
+To uninstall Mariadb server in order to reinstall
+yum remove mariadb mariadb-server 
+rm -rf /var/lib/mysql ------ remove the mariadb dir
+
+To Reinstall Mariadb
+yum install mariadb mariadb-server
+
+To start and enable Mariadb
+systemctl start mariadb ----- To start mariadb 
+systemctl enable mariadb ---- to enable mariadb
+
+Once all is done, recheck the status of Mariadb and it should show ".active".
+systemctl status mariadb.service ------ To check status
