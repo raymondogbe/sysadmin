@@ -1,0 +1,32 @@
+QUESTION:
+Some users of the monitoring app have reported issues with xFusionCorp Industries mail server. 
+They have a mail server in Stork DC where they are using postfix mail transfer agent. 
+Postfix service seems to fail. Try to identify the root cause and fix it.
+
+
+SOLUTION:
+I was getting a "failed" error when I checked the status of the postfix.service
+At first, I thought that the postfix service is disabled or uninstalled.
+I went ahead to reinstall postfix service but thid didnt resolve the issue.
+sudo yum install postfix
+
+ssh into the mail server
+ssh username@mailserver and login to as root
+
+systemctl status postfix --- To check the status of postfix
+#Error message:  postfix.service - Postfix Mail Transport Agent
+   #Loaded: loaded (/usr/lib/systemd/system/postfix.service; enabled; vendor preset: disabled)
+   #Active: failed (Result: exit-code) since Sun 2021-11-14 13:35:04 UTC; 2min 15s ago
+  #Process: 618 ExecStart=/usr/sbin/postfix start (code=exited, status=1/FAILURE)
+  
+  
+vi /etc/postfix/main.cf ---- To log into postfix configuration and make the neccessary changes.
+The changes made are as follows:
+Modify the following two things for this configuration:
+inet_protocols = ipv4
+inet_interfaces = all
+
+systemctl start post
+systemctl enable postfix
+Finally, I check the status again and it was running
+systemctl status postfix
