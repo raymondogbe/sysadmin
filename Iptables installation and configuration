@@ -1,0 +1,23 @@
+QUESTION:
+We have one of our websites up and running on our Nautilus infrastructure in Stratos DC. 
+Our security team has raised a concern that right now Apache’s port i.e 8086 is open for all since there is no firewall installed on these hosts. 
+So we have decided to add some security layer for these hosts and after discussions and recommendations we have come up with the following requirements:
+Install iptables and all its dependencies on each app host. Block incoming port 8086 on all apps for everyone except for LBR host.
+Make sure the rules remain, even after system reboot.
+
+
+SOLUTION:
+To install iptable packages from yum command use following:-
+yum install -y iptables && yum install -y iptables-services. Do these for all the apps servers
+
+Then append the first rule which is to allow connection to the LBR Host: To all incoming traffic to LBR
+sudo iptables -A INPUT -p tcp --dport 8081 -s 172.16.238.14 -j ACCEPT    172.16.238.14 is the LBR ip
+
+Next is to append the second rule blocking all other connections to the port:
+sudo iptables -A INPUT -p tcp --dport 6100 -j DROP
+
+Now, To save permanently and restart in order for the changes to be established
+sudo service iptables save && sudo systemctl restart iptables
+
+PS: This would only work if iptables was installed as a service.
+
