@@ -1,0 +1,59 @@
+QUESTION:
+Disable Root login
+
+SOLUTION:
+sudo vi /etc/ssh/sshd_config
+change PermitRootLogin to no
+You need to restart for the change to be effective
+systemctl restart
+
+-----------------------------------------------------------------------
+
+QUESTION:
+create a user
+
+SOLUTION:
+sudo adduser username
+sudo useradd -s /sbin/nologin Non interactive login
+
+-----------------------------------------------------------------------
+
+QUESTION:
+Create a user with a speific UID
+
+SOLUTION:
+useradd -u 999 <username>
+
+-----------------------------------------------------------------------
+
+QUESTION:
+Add a User to Multiple Groups
+
+SOLUTION:
+useradd -G admins,webadmin,developers <name of the user>
+
+-----------------------------------------------------------------------
+
+QUESTION:
+Add user with no login or noninteractive shell
+
+SOLUTION:
+useradd -s /sbin/nologin <username>
+check using cat /etc/passwd
+
+-----------------------------------------------------------------------
+
+QUESTION:
+Create a user without Home
+
+SOLUTION:
+useradd -M <username>
+
+
+-----------------------------------------------------------------------
+
+QUESTION:
+Create a group
+
+SOLUTION:
+groupadd <groupname>
