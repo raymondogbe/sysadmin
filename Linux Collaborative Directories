@@ -1,0 +1,20 @@
+QUESTION:
+The Nautilus team doesn't want its data to be accessed by any of the other groups/teams due to security reasons and want their data to be strictly accessed by the dbadmin group of the team.
+Setup a collaborative directory /dbadmin/data on Nautilus App 1 server in Stratos Datacenter.
+The directory should be group owned by the group dbadmin and the group should own the files inside the directory. 
+The directory should be read/write/execute to the group owners, and others should not have any access.
+
+
+
+SOLUTION:
+To create a directory in the App1 server
+mkdir -p /dbadmin/data  -   -p = can create a directory from any path
+
+Since dbadmin already exist as a group, all you need is to change the group into the directory
+chgrp -R dbadmin /dbadmin/data
+
+Give the group an ownership of the directory
+chown -R :dbadmin /dbadmin/data
+
+Give permission to the group and user to be able to read, write and execute but no permissions to others
+chmod 2770 /dbadmin/data
