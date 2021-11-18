@@ -1,0 +1,35 @@
+QUESTION:
+During a recent security audit, the application security team of xFusionCorp Industries found security issues with the Apache web server on Nautilus App Server 2 server in Stratos DC. 
+They have listed several security issues that need to be fixed on this server. Please apply the security settings below: 
+
+a. On Nautilus App Server 2 it was identified that the Apache web server is exposing the version number. Ensure this server has the appropriate settings to hide the version number of the Apache web server.
+
+b. There is a website hosted under /var/www/html/blog on App Server 2. It was detected that the directory /blog lists all of its contents while browsing the URL. Disable the directory browser listing in Apache config.
+
+c. Also make sure to restart the Apache service after making the changes.
+
+
+
+SOLUTION:
+
+a. Ensure this server has the appropriate settings to hide the version number of the Apache web server.
+Add the following lines in the httpd.conf to version apache version
+ vi /etc/httpd/conf/httpd.conf   
+ServerSignature Off
+ServerTokens Prod
+
+Once it is done, you must systemctl restart httpd.service to restart the conf
+
+b.
+Also, add the following lines in the document root to disable the directory listing in the same  vi /etc/httpd/conf/httpd.conf   
+<Directory "/var/www/html/<Folder>"> 
+Options -Indexes 
+AllowOverride None 
+Require all granted
+</Directory>
+
+
+c.
+Once again, restart the service.
+systemctl restart httpd.service
+use curl -I http://172.16.238.12:8080 to recheck the version if it is still displayed
