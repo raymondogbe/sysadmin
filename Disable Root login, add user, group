@@ -5,7 +5,7 @@ SOLUTION:
 sudo vi /etc/ssh/sshd_config
 change PermitRootLogin to no
 You need to restart for the change to be effective
-systemctl restart
+systemctl restart sshd
 
 -----------------------------------------------------------------------
 
