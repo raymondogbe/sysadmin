@@ -1,0 +1,8 @@
+QUESTION
+ Copy all files with .js extension with their parent folder from /var/www/html/blog to blog
+
+
+
+SOLUTION:
+find /var/www/html/blog -type f -name '*.js' -exec cp --parents {} /blog \; 
+Though blog folder was already available in the root folder ./blog, the syntax above copies all files ending with .js into the .blog
