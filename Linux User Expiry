@@ -1,0 +1,15 @@
+QUESTION:
+A developer Kareem has been assigned Nautilus project temporarily as a backup resource. 
+As a temporary resource for this project, we need a temporary user for Kareem. 
+It’s a good idea to create a user with a set expiration date so that the user won't be able to access servers beyond that point.
+Therefore, create a user named kareem on the App Server 3. Set expiry date to 2021-03-28 in Stratos Datacenter. Make sure the user is created as per standard and is in lowercase.
+
+
+SOLUTION:
+ssh into appserver3
+Change to root admin using sudo su
+useradd kareem
+#chage -E "2021-03-28" kareem -------- This is for Account expiry
+
+On a side note for password expiry
+#chage -M number-of-days username -----This is for Password Expiry
