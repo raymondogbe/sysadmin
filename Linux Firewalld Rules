@@ -1,0 +1,33 @@
+QUESTION:
+The Nautilus system admins team recently deployed a web UI application for their backup utility running on the Nautilus backup server in Stratos Datacenter. 
+The application is running on port 5003. They have firewalld installed on that server. The requirements that have come up include the following:
+Open all incoming connection on 5003/tcp port. Zone should be public.
+
+
+SOLUTIONS:
+SSH username@ip or domain
+
+To install firewall
+#sudo yum install firewalld
+
+Check the state or status of firewall
+sudo firewall-cmd --state
+
+To print the zone configuration settings
+#sudo firewall-cmd --zone=public --list-all
+
+To start the firewalld service
+#sudo systemctl start firewalld
+#sudo systemctl enable firewalld
+
+
+Open all incoming connection on 5003/tcp port. Zone should be public.
+#sudo firewall-cmd --add-service=http --permanent
+#sudo firewall-cmd --permanent --zone=public --add-interface=eth0
+#sudo firewall-cmd --permanent --zone=public --add-port=5003/tcp
+#sudo firewall-cmd --reload
+
+
+Note:
+By default, when making changes to the Firewalld configuration using the firewall-cmd utility, the changes are applied to the runtime configuration. 
+To make the changes permanent you need to use the --permanent option.
