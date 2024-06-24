@@ -23,3 +23,11 @@ ssh-copy-id user@server_ip_address
 Enter the server_ip_address password
 With this, the public key is now added to the Remote server SSH key configuration
 Once this is completed, you wouldnt need a password when you ssh into the server_ip_address
+
+You can also use the ssh-keygen to get both the private and public key on the parent server and then, copy the public key into the ssh_authorized-keys of the remote server.
+Once that is done, you dont need password to access the remote server.
+
+Please note, if you copy the private key is copied instead of the public key, it causes the following:
+1. Security Risk: Anyone with access to the remote server can potentially use the private key to impersonate you and access other systems that trust your key.
+2. Key Compromise: The private key is meant to be private and securely stored. If it’s exposed, it compromises the entire public-private key pair, and anyone can use it to authenticate as you.
+3. Unauthorized Access: With the private key on the remote server, unauthorized users could gain access to systems where the corresponding public key is authorized, leading to potential data breaches and unauthorized actions.
